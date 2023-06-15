@@ -1,0 +1,140 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Perpus;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author AkmaL
+ */
+public class YukjalanBismillah {
+
+    static Siswanya s = new Siswanya();
+    static Petugasnya p = new Petugasnya();
+    static Buku b = new Buku();
+    static Peminjaman pe = new Peminjaman();
+
+    static Scanner input = new Scanner(System.in);
+
+    static boolean tetap = true;
+    static String kunci;
+    static int ID;
+
+    public static void main(String[] args) {
+        menu();
+    }
+
+    public static void menu() {
+        System.out.println("Masukkan ID Siswa");
+        int id = input.nextInt();
+        int BukuPinjaman = 0;
+        System.out.println("Selamat Datang " + s.getNama(pe.getIDSiswa(id)));
+        while (tetap) {
+            System.out.println("--Perpustakaan Indonesia--");
+            System.out.println("-- MENU --");
+            System.out.println("1. List Buku");
+            System.out.println("2. List Petugas");
+            System.out.println("3. List Siswa");
+            System.out.println("4. Pinjam Buku");
+            System.out.println("5. Beli Buku");
+            System.out.println("6. Kembalikan Buku");
+            System.out.println("7. Exit");
+            System.out.print("Pilih menu: ");
+            int menu = input.nextInt();
+
+            switch (menu) {
+                case 1:
+                    b.tampilkanBuku();
+                    System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                    kunci = input.next();
+                    break;
+                case 2:
+                    p.outputKaryawan();
+                    System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                    kunci = input.next();
+                    break;
+                case 3:
+                    s.outputSiswa();
+                    System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                    kunci = input.next();
+                    break;
+                case 4:
+                    System.out.println("Masukkan ID Buku yang Ingin Anda Pinjam : ");
+                    ID = input.nextInt();
+
+                    if (!s.getStatus(pe.getIDSiswa(id)) && ID == BukuPinjaman) {
+                        System.out.println("Maaf Anda Sudah Meminjam Buku");
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                        break;
+                    }
+                    if (b.getStock(ID - 1) > 0) {
+                        b.setStock(ID - 1, b.getStock(ID - 1) - 1);
+                        BukuPinjaman = ID;
+                        System.out.println("Terimakasih Telah Meminjam Buku " + b.getNama(ID - 1));
+                        System.out.println("Selamat Datang Kembali");
+                        s.setStatus(pe.getIDSiswa(id), false);
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                    } else {
+                        System.out.println("Maaf Buku Tidak Tersedia");
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                    }
+                    break;
+                case 5:
+                    System.out.println("Masukkan id buku yang ingin anda beli : ");
+                    int aidi = input.nextInt();
+                    System.out.println("Masukkan Jumlah buku yang ingin dibeli : ");
+                    int banyak = input.nextInt();
+                    pe.setBanyak(banyak);
+                    if (pe.getBanyak(pe.getIDBanyak(banyak)) <= b.getStock(aidi - 1)) {
+                        b.setStock(aidi - 1, b.getStock(aidi - 1) - banyak);
+                        double hargaBuku = b.getHarga(aidi - 1);
+                        double totalHarga = hargaBuku * banyak;
+                        System.out.println("Terimakasih Telah membeli buku " + b.getNama(aidi - 1));
+                        System.out.println("Total harga belanja: " + totalHarga);
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                    } else {
+                        System.out.println("Jumlah yang anda inginkan melebihi Stock");
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                    }
+                    break;
+                case 6:
+                    System.out.println("Masukkan id buku yang ingin anda kembalikan");
+                    int ID1 = input.nextInt();
+                    if (s.getStatus(pe.getIDSiswa(id)) == false) {
+                        if (BukuPinjaman == ID1) { // Cek apakah buku yang dikembalikan sesuai dengan buku yang dipinjam sebelumnya
+                            b.setStock(ID1 - 1, b.getStock(ID1 - 1) + 1); // Penambahan stok buku
+                            System.out.println("Terimakasih Telah Mengembalikan Buku " + b.getNama(ID1 - 1));
+                            s.setStatus(pe.getIDSiswa(id), true);
+                            System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                            kunci = input.next();
+                        } else { 
+                            System.out.println("Buku yang ingin anda kembalikan tidak sesuai");
+                            System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                            kunci = input.next();
+                        }
+                    } else {
+                        System.out.println("Anda belum meminjam buku apapun");
+                        System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                        kunci = input.next();
+                    }
+                    break;
+                case 7:
+                    System.out.println("Terimakasih selamat Datang Kembali");
+                    tetap = false;
+                    break;
+                default:
+                    System.out.println("Inputan anda salah");
+                    System.out.println("Ketik apapun lalu enter untuk keluar ke menu");
+                    kunci = input.next();
+            }
+        }
+    }
+}
