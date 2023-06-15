@@ -1,0 +1,61 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Perpus;
+
+import java.util.ArrayList;
+
+/**
+ *
+ * @author AkmaL
+ */
+public class Buku {
+    private ArrayList<String> namaBuku = new ArrayList<String>();
+    private ArrayList<Integer> stock = new ArrayList<Integer>();
+    private ArrayList<Integer> harga = new ArrayList<Integer>();
+    
+    public int size(){
+        return this.namaBuku.size();
+    }
+    
+    public Buku(){
+        this.namaBuku.add("Sorrow On The Echo");
+        this.stock.add(8);
+        this.harga.add(100000); 
+        
+        this.namaBuku.add("Mak Lampir");
+        this.stock.add(12);
+        this.harga.add(78000);
+    }
+    
+    public String getNama(int id){
+        return this.namaBuku.get(id);
+    }
+    public int getStock(int id){
+        return this.stock.get(id);
+    }
+    public int getHarga(int id){
+        return this.harga.get(id);
+    }
+    public void setNama(String nama){
+        this.namaBuku.add(nama);
+    }
+    public void setStock(int id, int stok){
+        stock.set(id, stok);
+    }
+    public void setHarga(int harga){
+        this.harga.add(harga);
+    }
+    
+    public void tampilkanBuku(){
+        int n = this.namaBuku.size();
+        for(int i = 0;i<n;i++){
+            System.out.println("========================");
+            System.out.println("Judul Buku = "+getNama(i));
+            System.out.println("Stock = "+getStock(i));
+            System.out.println("Harga = "+getHarga(i));
+        }
+    }
+}
+
